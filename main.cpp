@@ -30,46 +30,48 @@ class Mod : GenericMod {
 	 * @return	{void}
 	*/
 	virtual void Initialize() override {
-		std::string separator("=");
+		std::string separator(" ");
 		auto offset = 0x04;
 		std::string line;
 
 		// Open file
-		std::ifstream myfile("Mods\\ScreenConfig\\config.txt");
+		std::ifstream myfile("options.cfg");
 		if (!myfile.is_open()) {
 			Popup("Error", "Cannot open config file for screen size.");
 			return;
 		}
 
-		// Read first line and set SCREEN_HEIGHT
+		std::getline(myfile, line);
+		// Read first line and set resolutionX
 		std::getline(myfile, line);
 		auto index = line.find(separator);
 		if (index != std::string::npos) {
 			try {
-				const auto SCREEN_HEIGHT = std::stoi(line.substr(index + 1));
-				auto addressY = 0x135914;
-				auto baseY = (char*)CWBase() + addressY + offset;
-				WriteByte(baseY, SCREEN_HEIGHT & 0xFF);
-				WriteByte(baseY + 0x01, SCREEN_HEIGHT >> 8);
+				auto resolutionX = std::stoi(line.substr(index + 1));
+				auto addressX = 0x13591C;
+				auto baseX = (char*)CWBase() + addressX + offset;
+				WriteByte(baseX, resolutionX & 0xFF);
+				WriteByte(baseX + 0x01, resolutionX >> 8);
+				
 			}
 			catch (...) {
-				Popup("Error", "Cannot set SCREEN_HEIGHT.");
+				Popup("Error", "Cannot set resolutionY.");
 			}
 		}
 
-		// Read second line and set SCREEN_WIDTH
+		// Read second line and set resolutionY
 		std::getline(myfile, line);
 		index = line.find(separator);
 		if (index != std::string::npos) {
 			try {
-				auto SCREEN_WIDTH = std::stoi(line.substr(index + 1));
-				auto addressX = 0x13591C;
-				auto baseX = (char*)CWBase() + addressX + offset;
-				WriteByte(baseX, SCREEN_WIDTH & 0xFF);
-				WriteByte(baseX + 0x01, SCREEN_WIDTH >> 8);
+				const auto resolutionY = std::stoi(line.substr(index + 1));
+				auto addressY = 0x135914;
+				auto baseY = (char*)CWBase() + addressY + offset;
+				WriteByte(baseY, resolutionY & 0xFF);
+				WriteByte(baseY + 0x01, resolutionY >> 8);
 			}
 			catch (...) {
-				Popup("Error", "Cannot set SCREEN_WIDTH.");
+				Popup("Error", "Cannot set resolutionX.");
 			}
 		}
 
