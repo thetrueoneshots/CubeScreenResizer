@@ -1,0 +1,5 @@
+cmake_minimum_required (VERSION 3.8)
+project(project_ScreenResizer)
+add_subdirectory(cwmods)
+add_library (ScreenResizer SHARED "main.cpp")
+target_link_libraries (ScreenResizer LINK_PUBLIC CWSDK)
