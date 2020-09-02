@@ -55,7 +55,7 @@ class Mod : GenericMod {
 				
 			}
 			catch (...) {
-				Popup("Error", "Cannot set resolutionY.");
+				Popup("Error", "Cannot set resolutionX.");
 			}
 		}
 
@@ -71,7 +71,7 @@ class Mod : GenericMod {
 				WriteByte(baseY + 0x01, resolutionY >> 8);
 			}
 			catch (...) {
-				Popup("Error", "Cannot set resolutionX.");
+				Popup("Error", "Cannot set resolutionY.");
 			}
 		}
 
